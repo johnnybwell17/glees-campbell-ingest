@@ -1,0 +1,16 @@
+site:
+  name: glees
+
+logger:
+  ip: 10.31.81.50
+  user: admin
+  table: Sage_5min
+
+polling:
+  interval_seconds: 300
+
+output:
+  raw_dir: data/raw
+  clean_dir: data/clean
+  labeled_dir: data/labeled
+  log_dir: data/logs
