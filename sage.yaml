@@ -1,0 +1,12 @@
+name: glees-campbell-ingest
+description: Pull latest data from a Campbell CR1000X and publish measurements to SAGE.
+version: "0.1.0"
+authors:
+  - John Blackwell
+keywords:
+  - campbell
+  - cr1000x
+  - glees
+  - ingest
+  - weather
+license: MIT
