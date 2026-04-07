@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements a local data ingestion and preprocessing pipeline for a Campbell Scientific CR1000X datalogger deployed at the Glees site, running on a Thor Blade within the SAGE (Sustaining AI for Global Ecosystems) system.
+This project implements a local data ingestion and preprocessing pipeline for a Campbell Scientific CR1000X datalogger deployed at the Glees site, running on a Thor Blade within the Sage system.
 
 The pipeline retrieves environmental measurements from the datalogger over HTTP, performs lightweight cleaning and normalization, and produces structured outputs suitable for downstream ingestion, analysis, or integration with SAGE services.
 
