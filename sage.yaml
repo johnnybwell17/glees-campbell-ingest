@@ -1,6 +1,6 @@
 name: glees-campbell-ingest
 description: Pull latest data from a Campbell Scientific CR1000X datalogger and publish measurements to SAGE.
-version: "0.1.1"
+version: "0.1.2"
 authors:
   - John Blackwell
 keywords:
