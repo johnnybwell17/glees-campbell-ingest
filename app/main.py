@@ -1,6 +1,7 @@
 import os
 import requests
 from waggle.plugin import Plugin
+from datetime import datetime, timezone
 
 LOGGER_IP = os.getenv("LOGGER_IP", "10.31.81.50")
 TABLE_NAME = os.getenv("TABLE_NAME", "Sage_5min")
@@ -26,11 +27,12 @@ def main():
 
     fields = payload["head"]["fields"]
     row = payload["data"][0]
-    timestamp = row[0]
+    timestamp_str = row["time"]
+    timestamp = int(datetime.fromisoformat(timestamp_str).replace(tzinfo=timezone.utc).timestamp() * 1_000_000_000)
+    values = row["vals"]
 
     with Plugin() as plugin:
-        for i, field in enumerate(fields[1:], start=1):
-            value = row[i]
+        for field, value in zip(fields, values):
 
             if value == "NAN" or value is None:
                 continue
@@ -40,7 +42,7 @@ def main():
             except Exception:
                 continue
 
-            measurement_name = field["name"]
+            measurement_name = field["name"].lower()
             unit = field.get("units", "")
 
             plugin.publish(
