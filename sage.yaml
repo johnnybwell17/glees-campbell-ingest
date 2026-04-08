@@ -13,8 +13,6 @@ source:
     - "linux/arm64"
   url: "https://github.com/johnnybwell17/glees-campbell-ingest"
   branch: "main"
-  directory: "."
-  dockerfile: "Dockerfile"
 
 inputs:
   - id: "LOGGER_IP"
