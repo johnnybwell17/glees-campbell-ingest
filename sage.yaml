@@ -1,7 +1,7 @@
 name: "glees-campbell-ingest"
 namespace: "johnnybwell"
 description: "Pulls the latest record from a Campbell Scientific CR1000X datalogger and publishes measurements from a Thor Blade to Sage."
-version: "0.1.2"
+version: "0.1.4"
 authors: "John Blackwell"
 license: "MIT"
 keywords: "environmental-monitoring, edge-ingest, campbell-scientific, cr1000x, telemetry, time-series, glees"
