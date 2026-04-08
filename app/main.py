@@ -1,4 +1,6 @@
 import os
+import re
+import sys
 from datetime import datetime, timezone
 
 import requests
@@ -26,17 +28,50 @@ def iso_to_ns(timestamp_str: str) -> int:
     return int(dt.timestamp() * 1_000_000_000)
 
 
+def normalize_metric_name(name: str) -> str:
+    name = name.lower()
+    name = re.sub(r"[^a-z0-9_]+", "_", name)
+    return name.strip("_")
+
+
 def main():
-    r = requests.get(URL, auth=(LOGGER_USER, LOGGER_PASS), timeout=20)
-    r.raise_for_status()
-    payload = r.json()
+    try:
+        r = requests.get(URL, auth=(LOGGER_USER, LOGGER_PASS), timeout=20)
+        r.raise_for_status()
+        payload = r.json()
+    except requests.RequestException as e:
+        print(f"ERROR: failed to fetch logger data: {e}", file=sys.stderr)
+        sys.exit(1)
+    except ValueError as e:
+        print(f"ERROR: invalid JSON from logger: {e}", file=sys.stderr)
+        sys.exit(1)
 
-    fields = payload["head"]["fields"]
-    row = payload["data"][0]
-    timestamp_ns = iso_to_ns(row["time"])
-    values = row["vals"]
+    data_rows = payload.get("data", [])
+    fields = payload.get("head", {}).get("fields", [])
 
-    print(f"Fetched record at {row['time']} from {LOGGER_IP} table {TABLE_NAME}")
+    if not data_rows:
+        print("ERROR: logger returned no data rows", file=sys.stderr)
+        sys.exit(1)
+
+    if not fields:
+        print("ERROR: logger returned no field metadata", file=sys.stderr)
+        sys.exit(1)
+
+    row = data_rows[0]
+    timestamp_str = row.get("time")
+    values = row.get("vals", [])
+
+    if timestamp_str is None:
+        print("ERROR: logger row missing 'time'", file=sys.stderr)
+        sys.exit(1)
+
+    if not values:
+        print("ERROR: logger row missing 'vals'", file=sys.stderr)
+        sys.exit(1)
+
+    timestamp_ns = iso_to_ns(timestamp_str)
+
+    print(f"Fetched record at {timestamp_str} from {LOGGER_IP} table {TABLE_NAME}")
 
     published_count = 0
 
@@ -50,7 +85,7 @@ def main():
             except Exception:
                 continue
 
-            measurement_name = field["name"].lower()
+            measurement_name = normalize_metric_name(field["name"])
             unit = field.get("units", "")
 
             print(f"Publishing {measurement_name}={value} {unit}")
