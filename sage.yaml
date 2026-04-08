@@ -1,5 +1,5 @@
 name: glees-campbell-ingest
-description: Pull latest data from a Campbell Scientific CR1000X datalogger and publish measurements to SAGE.
+description: Pulls the latest record from a Campbell Scientific CR1000X datalogger and publishes measurements from a Thor Blade to Sage.
 version: "0.1.2"
 authors:
   - John Blackwell
