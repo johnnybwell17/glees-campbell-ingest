@@ -1,14 +1,49 @@
-name: glees-campbell-ingest
-description: Pulls the latest record from a Campbell Scientific CR1000X datalogger and publishes measurements from a Thor Blade to Sage.
+name: "glees-campbell-ingest"
+namespace: "johnnybwell"
+description: "Pulls the latest record from a Campbell Scientific CR1000X datalogger and publishes measurements from a Thor Blade to Sage."
 version: "0.1.2"
+
 authors:
-  - John Blackwell
+  - "John Blackwell"
+
+license: "MIT"
+
 keywords:
-  - environmental-monitoring
-  - edge-ingest
-  - campbell-scientific
-  - cr1000x
-  - telemetry
-  - time-series
-  - glees
-license: MIT
+  - "environmental-monitoring"
+  - "edge-ingest"
+  - "campbell-scientific"
+  - "cr1000x"
+  - "telemetry"
+  - "time-series"
+  - "glees"
+
+homepage: "https://github.com/johnnybwell17/glees-campbell-ingest"
+
+source:
+  architectures:
+    - "linux/amd64"
+    - "linux/arm64"
+  url: "https://github.com/johnnybwell17/glees-campbell-ingest"
+  branch: "main"
+  directory: "."
+  dockerfile: "Dockerfile"
+
+inputs:
+  - id: "LOGGER_IP"
+    type: "string"
+  - id: "TABLE_NAME"
+    type: "string"
+  - id: "LOGGER_USER"
+    type: "string"
+  - id: "LOGGER_PASS"
+    type: "string"
+  - id: "SITE"
+    type: "string"
+  - id: "STATION_NAME"
+    type: "string"
+  - id: "DEVICE"
+    type: "string"
+
+metadata:
+  ontology:
+    - "Batt_Volt_Min"
