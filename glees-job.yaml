@@ -1,0 +1,19 @@
+name: glees-campbell-ingest
+plugins:
+- name: glees-campbell-ingest
+  pluginSpec:
+    image: registry.sagecontinuum.org/johnnybwell/glees-campbell-ingest:0.1.5
+    env:
+      LOGGER_IP: "10.31.81.50"
+      TABLE_NAME: "Sage_5min"
+      LOGGER_USER: "admin"
+      LOGGER_PASS: "78Q5-8XHY-QJAP"
+      SITE: "glees"
+      STATION_NAME: "60650"
+      DEVICE: "cr1000x-60650"
+nodes:
+  H01C: true
+scienceRules:
+- "schedule(glees-campbell-ingest): cronjob('glees-campbell-ingest', '*/5 * * * *')"
+successcriteria:
+- WallClock(1d)
